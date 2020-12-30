@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="list_item_height">56dp</dimen>
+    <dimen name="decs_image_size">150dp</dimen>
     <dimen name="default_item_margin">8dp</dimen>
+    <dimen name="horizontal_item_margin">16dp</dimen>
+
+    <dimen name="text_size_title">16sp</dimen>
+    <dimen name="text_size_title_desc">26sp</dimen>
 </resources>

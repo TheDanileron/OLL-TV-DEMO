@@ -1,4 +1,4 @@
-package com.provider.tv.framework
+package com.provider.tv.framework.application
 
 import android.content.Context
 import android.provider.Settings
