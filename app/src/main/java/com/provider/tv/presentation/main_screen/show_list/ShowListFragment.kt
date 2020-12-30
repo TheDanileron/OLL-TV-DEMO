@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.provider.tv.R
 import com.provider.tv.entity.Show
+import com.provider.tv.framework.Constants
+import com.provider.tv.framework.data_helper.ShowDataConverter
+import com.provider.tv.framework.retorift.StateHolder
 import com.provider.tv.presentation.TVShowViewModelFactory
 import com.provider.tv.presentation.main_screen.MainActivity
 import com.provider.tv.presentation.main_screen.MainViewModel
@@ -24,22 +27,31 @@ class ShowListFragment : Fragment(), OnShowSelectedListener {
     val showDataObserver = Observer<MutableList<Show>> {
         if (adapter == null) {
             initAdapter(it)
+            updateDatePanel()
         } else {
             adapter?.updateAdapter()
+            updateDatePanel()
         }
-        viewModel.isLoading = false
-        loadingPB.visibility = View.GONE
+    }
+    val loadingObserver = Observer<Boolean> {
+        if(it)
+            loadingPB.visibility = View.VISIBLE
+        else
+            loadingPB.visibility = View.GONE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity(), TVShowViewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            TVShowViewModelFactory
+        ).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
@@ -53,6 +65,7 @@ class ShowListFragment : Fragment(), OnShowSelectedListener {
     override fun onStart() {
         super.onStart()
         viewModel.showLiveData.observe(viewLifecycleOwner, showDataObserver)
+        viewModel.loadingStateLiveData.observe(viewLifecycleOwner, loadingObserver)
         recycler.scrollToPosition(viewModel.savedIndex)
     }
 
@@ -60,17 +73,29 @@ class ShowListFragment : Fragment(), OnShowSelectedListener {
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if(newState == SCROLL_STATE_IDLE) {
+                if (newState == SCROLL_STATE_IDLE) {
                     val layoutManager = recycler.layoutManager as LinearLayoutManager
                     viewModel.savedIndex = layoutManager.findFirstCompletelyVisibleItemPosition()
-                }
-                if (!recyclerView.canScrollVertically(1)) {
-                    loadingPB.visibility = View.VISIBLE
-                    viewModel.updateShowList()
+                    updateDatePanel()
+
+                    if (!recyclerView.canScrollVertically(1)) {
+                        viewModel.updateShowList(Constants.direction_down)
+                    } else if (!recyclerView.canScrollVertically(-1)) {
+                        viewModel.updateShowList(Constants.direction_up)
+                    }
                 }
             }
         })
 
+    }
+
+    fun updateDatePanel() {
+        val layoutManager = recycler.layoutManager as LinearLayoutManager
+        val date = viewModel.updateDatePanel(layoutManager.findFirstCompletelyVisibleItemPosition())
+        if(date.isNotEmpty()) {
+            dateTV.visibility = View.VISIBLE
+            dateTV.text = date
+        }
     }
 
     fun initAdapter(list: MutableList<Show>) {

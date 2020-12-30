@@ -17,4 +17,15 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <TextView
+        android:padding="@dimen/default_item_margin"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:background="@color/light_grey"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/dateTV"
+        android:textSize="@dimen/text_size_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

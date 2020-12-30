@@ -9,6 +9,8 @@ data class ShowResult(
         val icon: String,
         val description: String,
         val is_free: Int,
+        val start: String,
+        val stop: String,
         val subs: SubscriptionResult
 ) : Serializable  {
     override fun toString(): String {

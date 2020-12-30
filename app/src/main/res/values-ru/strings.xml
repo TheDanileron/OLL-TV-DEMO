@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="date_pattern">dd LLLL HH:mm</string>
+    <string name="show_free">Бесплатно</string>
+    <string name="show_by_sub">По подписке</string>
+    <string name="date_pattern_main">%1$sdd LLLL, %2$s</string>
+    <string name="today_str">Сегодня,</string>
+    <string name="subscription_btn_text">Смотреть по подписке, %1$s</string>
+    <string name="subscription_btn_text_free">Смотреть</string>
+</resources>

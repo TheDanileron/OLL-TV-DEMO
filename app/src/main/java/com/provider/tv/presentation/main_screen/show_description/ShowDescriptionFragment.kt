@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.provider.tv.R
 import com.provider.tv.entity.Show
+import com.provider.tv.framework.Constants
 import com.provider.tv.presentation.TVShowViewModelFactory
 import com.provider.tv.presentation.main_screen.MainViewModel
 import com.squareup.picasso.Picasso
@@ -38,5 +39,14 @@ class ShowDescriptionFragment : Fragment(){
         title.text = show.name
         desc.text = show.description
         Picasso.get().load(show.imgUrl).into(image)
+        sub_type_tv.text = viewModel.dataConverter.getTypeString(show.isFree)
+        start_tv.text = viewModel.dataConverter.formatDate(show.startTime)
+        end_tv.text = viewModel.dataConverter.formatDate(show.endTime)
+
+        if(show.isFree == Constants.showTypeSubscription) {
+            subscription_btn.text = String.format(getString(R.string.subscription_btn_text), show.subscription.price.toString())
+        } else {
+            subscription_btn.text = getString(R.string.subscription_btn_text_free)
+        }
     }
 }

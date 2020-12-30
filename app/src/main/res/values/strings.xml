@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">TestTV</string>
+    <string name="app_name">Oll Show</string>
+    <string name="date_pattern">LLLL dd HH:mm</string>
+    <string name="date_pattern_main">%1$sLLLL dd, %2$s</string>
+    <string name="show_free">Free</string>
+    <string name="show_by_sub">Subscription</string>
+    <string name="today_str">Today,</string>
+    <string name="subscription_btn_text">Watch by subscription, %1$s</string>
+    <string name="subscription_btn_text_free">Watch</string>
 </resources>

@@ -7,5 +7,7 @@ data class Show(
         val imgUrl: String,
         val description: String,
         val isFree: Int,
+        val startTime: String,
+        val endTime: String,
         val subscription: Subscription
 )

@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.provider.tv.R
 import com.provider.tv.entity.Show
+import com.provider.tv.framework.Constants
+import com.provider.tv.framework.retorift.StateHolder
 
 class ShowRecyclerAdapter(val showList: MutableList<Show>, val showSelectedListener: OnShowSelectedListener) : RecyclerView.Adapter<ShowViewHolder>() {
 
@@ -25,6 +27,11 @@ class ShowRecyclerAdapter(val showList: MutableList<Show>, val showSelectedListe
     }
 
     fun updateAdapter() {
-        notifyDataSetChanged()
+        if(StateHolder.direction == Constants.direction_up) {
+            notifyItemRangeInserted(0, StateHolder.lastUpdateSize)
+        } else {
+            notifyItemRangeInserted(showList.size - StateHolder.lastUpdateSize, StateHolder.lastUpdateSize)
+        }
     }
+
 }

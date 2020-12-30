@@ -2,9 +2,10 @@ package com.provider.tv.presentation.main_screen
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.TransitionInflater
 import com.provider.tv.R
 import com.provider.tv.entity.Show
 import com.provider.tv.presentation.TVShowViewModelFactory
@@ -22,13 +23,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction().replace(fragment_container.id, ShowListFragment()).commit()
+        val listFragment = ShowListFragment()
+        supportFragmentManager.beginTransaction().setTransition( FragmentTransaction.TRANSIT_FRAGMENT_OPEN ).replace(fragment_container.id, listFragment).commit()
         viewModel = ViewModelProvider(this, TVShowViewModelFactory).get(MainViewModel::class.java)
         viewModel.currentShow.observe(this, currentShowObserver)
     }
 
     fun navigateToDescription() {
-        supportFragmentManager.beginTransaction().add(fragment_container.id, ShowDescriptionFragment()).addToBackStack(null).commit()
+        val descriptionFragment = ShowDescriptionFragment()
+        descriptionFragment.enterTransition = TransitionInflater.from(this).inflateTransition(R.transition.fragment_slide_in)
+        supportFragmentManager.beginTransaction().setTransition( FragmentTransaction.TRANSIT_FRAGMENT_OPEN ).add(fragment_container.id, ShowDescriptionFragment()).addToBackStack(null).commit()
     }
 
     override fun onBackPressed() {

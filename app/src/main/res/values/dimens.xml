@@ -6,5 +6,6 @@
     <dimen name="horizontal_item_margin">16dp</dimen>
 
     <dimen name="text_size_title">16sp</dimen>
+    <dimen name="text_size_info">20sp</dimen>
     <dimen name="text_size_title_desc">26sp</dimen>
 </resources>
